@@ -52,29 +52,75 @@ AI会自动帮你搞定这一切！🎉
 
 ## 📸 看看能生成什么样的设计
 
-### 示例1：经典电影海报
+### 场景1：公众号/读书笔记封面
 
 <table>
   <tr>
-    <td width="33%">
-      <img src="examples/imdb-01-shawshank.png" alt="肖申克的救赎"><br>
-      <b>提示词</b>: "为《肖申克的救赎》设计海报"<br>
-      <i>→ AI自动选择了"负空间"技巧</i>
+    <td width="50%">
+      <img src="examples/usecase-wechat-cover.png" alt="百年孤独 - 公众号封面"><br>
+      <b>提示词</b>: "为《百年孤独》设计读书笔记封面"<br>
+      <i>→ AI选择了 Alphonse Mucha 新艺术风格，蝴蝶与时间的轮回</i>
     </td>
-    <td width="33%">
-      <img src="examples/imdb-03-dark-knight.png" alt="蝙蝠侠：黑暗骑士"><br>
-      <b>提示词</b>: "为《黑暗骑士》设计海报"<br>
-      <i>→ AI使用了"视觉双关"手法</i>
-    </td>
-    <td width="33%">
-      <img src="examples/imdb-09-pulp-fiction.png" alt="低俗小说"><br>
-      <b>提示词</b>: "为《低俗小说》设计海报"<br>
-      <i>→ AI采用了"超极简主义"风格</i>
+    <td width="50%">
+      <img src="examples/usecase-book-cover.png" alt="三体 - 书籍封面"><br>
+      <b>提示词</b>: "为《三体》设计书籍封面"<br>
+      <i>→ AI选择了 Kilian Eng 几何未来主义，三个太阳与文明碰撞</i>
     </td>
   </tr>
 </table>
 
-### 示例2：中文电影/戏剧
+### 场景2：小红书配图 / 观影笔记
+
+<table>
+  <tr>
+    <td width="50%">
+      <img src="examples/usecase-xiaohongshu.png" alt="花样年华 - 小红书配图"><br>
+      <b>提示词</b>: "为《花样年华》设计观影笔记配图"<br>
+      <i>→ AI选择了 Toulouse-Lautrec 平面色块，旗袍女子与昏暗走廊</i>
+    </td>
+    <td width="50%">
+      <img src="examples/imdb-01-shawshank.png" alt="肖申克的救赎"><br>
+      <b>提示词</b>: "为《肖申克的救赎》设计海报"<br>
+      <i>→ AI使用负空间技巧，铁栏中飞出自由之鸟</i>
+    </td>
+  </tr>
+</table>
+
+### 场景3：歌单封面 / 专辑封面
+
+<table>
+  <tr>
+    <td width="50%">
+      <img src="examples/usecase-album-cover.png" alt="深夜爵士 - 专辑封面"><br>
+      <b>提示词</b>: "为深夜爵士歌单设计封面"<br>
+      <i>→ AI选择了 Milton Glaser 迷幻波普，萨克斯与城市灯光</i>
+    </td>
+    <td width="50%">
+      <img src="examples/imdb-03-dark-knight.png" alt="蝙蝠侠"><br>
+      <b>提示词</b>: "为《黑暗骑士》设计海报"<br>
+      <i>→ AI使用视觉双关，蝙蝠中的小丑</i>
+    </td>
+  </tr>
+</table>
+
+### 场景4：活动海报 / 朋友圈分享
+
+<table>
+  <tr>
+    <td width="50%">
+      <img src="examples/usecase-event-poster.png" alt="周末观影会 - 活动海报"><br>
+      <b>提示词</b>: "为周末观影会设计海报"<br>
+      <i>→ AI选择了 Saul Bass 极简几何，胶片与爆米花</i>
+    </td>
+    <td width="50%">
+      <img src="examples/usecase-moments-poster.png" alt="咖啡与书 - 朋友圈"><br>
+      <b>提示词</b>: "为咖啡与书的午后设计海报"<br>
+      <i>→ AI选择了 Jay Ryan 民间手工风格，手冲咖啡与翻开的书页</i>
+    </td>
+  </tr>
+</table>
+
+### 负空间大师级技巧
 
 <img src="examples/example-negative-space.png" width="400" alt="唐伯虎点秋香">
 
@@ -83,24 +129,21 @@ AI会自动帮你搞定这一切！🎉
 
 ---
 
-## 🎯 你可以用它做什么？
+## 🎯 更多适用场景
 
 ### 内容创作
-
-- **📱 公众号封面** - 读书笔记、影评、书评
-- **🎨 小红书配图** - 读书分享、观影笔记、艺术鉴赏
+- **📱 公众号封面** - 读书笔记、影评、书评（如上《百年孤独》示例）
+- **🎨 小红书配图** - 观影笔记、读书分享（如上《花样年华》示例）
 - **🐦 X/Twitter封面** - 电影推荐、书单、个人品牌
-- **📖 朋友圈海报** - 分享生活、推荐好物
+- **📖 朋友圈海报** - 分享生活、推荐好物（如上《咖啡与书》示例）
 
 ### 个人创意项目
-
-- **📚 电子书封面** - 个人作品、博客文集、笔记整理
-- **🎵 歌单封面** - Spotify播放列表、网易云歌单
-- **🎭 活动海报** - 读书会、观影会、小型聚会
+- **📚 书籍封面** - 电子书、博客文集（如上《三体》示例）
+- **🎵 歌单封面** - Spotify、网易云歌单（如上《深夜爵士》示例）
+- **🎭 活动海报** - 读书会、观影会（如上《周末观影会》示例）
 - **🖼️ 家庭装饰** - 打印出来装框挂墙上
 
 ### 学习展示
-
 - **📝 论文封面** - 毕业论文、课程作业
 - **📊 PPT首页** - 课堂展示、工作汇报
 - **🎓 学习总结** - 读书报告、观影记录
