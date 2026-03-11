@@ -6,6 +6,8 @@ English | [简体中文](README.md)
 
 **Powered by Seedream 5.0** 🎨
 
+> OpenClaw / Claude Code quick setup: see [docs/openclaw-deployment.md](docs/openclaw-deployment.md)
+
 ## 🚀 New in v3.0!
 
 ✨ **20 Legendary Artists** - From Saul Bass to Toulouse-Lautrec
