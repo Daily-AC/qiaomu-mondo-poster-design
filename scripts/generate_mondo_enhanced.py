@@ -7,17 +7,13 @@ Features: AI prompt optimization, 3-column comparison, image-to-image, 20 artist
 import os
 import sys
 import argparse
-import requests
-import base64
-import json
 from datetime import datetime
-from pathlib import Path
 from PIL import Image, ImageDraw, ImageFont
-import io
 
-# API Configuration
-API_BASE = 'https://ai-gateway.trickle-lab.tech/api/v1'
-DEFAULT_MODEL = 'google/gemini-3.1-flash-image-preview'
+try:
+    from scripts.seedream_client import DEFAULT_MODEL, API_BASE, get_api_key, build_payload, generate_image as seedream_generate_image
+except ModuleNotFoundError:
+    from seedream_client import DEFAULT_MODEL, API_BASE, get_api_key, build_payload, generate_image as seedream_generate_image
 
 # 30+ Design Styles: Poster Artists + Book Cover + Album Cover + Social Media
 ARTIST_STYLES = {
@@ -65,15 +61,6 @@ ARTIST_STYLES = {
     "negative-space": "figure-ground inversion, negative space reveals hidden element, 2 colors"
 }
 
-def get_api_key():
-    """Get API key from environment variable"""
-    api_key = os.getenv('AI_GATEWAY_API_KEY')
-    if not api_key:
-        print("Error: AI_GATEWAY_API_KEY environment variable is required.")
-        print("Please set it with your AI Gateway API key.")
-        sys.exit(1)
-    return api_key
-
 def ai_enhance_prompt(original_subject, design_type, user_preferences=""):
     """
     Use AI to enhance and optimize the prompt while respecting user's original intent
@@ -86,7 +73,17 @@ def ai_enhance_prompt(original_subject, design_type, user_preferences=""):
     Returns:
         Enhanced prompt string
     """
-    api_key = get_api_key()
+    try:
+        import requests
+    except ImportError as exc:
+        print(f"⚠ AI enhancement unavailable: {exc}")
+        return None
+
+    try:
+        api_key = get_api_key()
+    except RuntimeError as exc:
+        print(f"⚠ AI enhancement unavailable: {exc}")
+        return None
 
     enhancement_request = f"""Enhance this Mondo poster prompt while STRICTLY respecting the user's original intent:
 
@@ -194,82 +191,24 @@ def generate_prompt(subject, design_type, style="auto", ai_enhance=False, color_
     return prompt
 
 def generate_image(prompt, output_path=None, model=DEFAULT_MODEL, aspect_ratio="9:16", input_image=None):
-    """
-    Generate image using AI Gateway API with optional image-to-image
-
-    Args:
-        prompt: The text prompt
-        output_path: Path to save the image
-        model: Model to use
-        aspect_ratio: Aspect ratio
-        input_image: Optional input image path for image-to-image
-
-    Returns:
-        Path to saved image or None if failed
-    """
-    api_key = get_api_key()
-
-    payload = {
-        'model': model,
-        'prompt': prompt,
-        'response_format': 'b64_json',
-        'aspectRatio': aspect_ratio
-    }
-
-    # Add image-to-image support
-    if input_image and os.path.exists(input_image):
-        try:
-            with open(input_image, 'rb') as f:
-                img_b64 = base64.b64encode(f.read()).decode('utf-8')
-                payload['image'] = img_b64
-                payload['mode'] = 'image-to-image'
-                print(f"📷 Using input image: {input_image}")
-        except Exception as e:
-            print(f"⚠ Could not load input image: {e}")
+    """Generate image using Seedream 5.0 with optional remote image URL input."""
+    if input_image is not None:
+        build_payload(prompt, model=model, image=input_image)
 
     print(f"🎨 Generating with {model}")
     print(f"📐 Aspect ratio: {aspect_ratio}")
     print(f"✍️  Prompt: {prompt[:80]}..." if len(prompt) > 80 else f"✍️  Prompt: {prompt}")
+    if input_image:
+        print(f"📷 Using input image: {input_image}")
     print("⏳ Please wait...\n")
 
     try:
-        response = requests.post(
-            f'{API_BASE}/images/generations',
-            headers={
-                'Content-Type': 'application/json',
-                'Authorization': f'Bearer {api_key}',
-                'Origin': 'https://trickle.so'
-            },
-            json=payload,
-            timeout=120
+        return seedream_generate_image(
+            prompt,
+            output_path=output_path,
+            model=model,
+            input_image=input_image,
         )
-
-        response.raise_for_status()
-        result = response.json()
-
-        if 'data' in result and len(result['data']) > 0:
-            b64_data = result['data'][0].get('b64_json')
-            if b64_data:
-                image_data = base64.b64decode(b64_data)
-
-                if not output_path:
-                    timestamp = datetime.now().strftime('%Y-%m-%d-%H-%M-%S')
-                    output_path = f"outputs/mondo-{timestamp}.png"
-
-                os.makedirs(os.path.dirname(output_path) if os.path.dirname(output_path) else '.', exist_ok=True)
-
-                with open(output_path, 'wb') as f:
-                    f.write(image_data)
-
-                print(f"✅ Saved to {output_path}")
-                return output_path
-            else:
-                print("❌ No image data in response")
-                return None
-        else:
-            print("❌ Invalid response format")
-            return None
-
     except Exception as e:
         print(f"❌ Error: {e}")
         return None
@@ -315,12 +254,17 @@ def generate_comparison(subject, design_type, styles, aspect_ratio="9:16", color
 
     # Create side-by-side comparison
     try:
-        pil_images = [Image.open(img) for img in images]
+        opened_images = []
+        try:
+            for image_path in images:
+                opened_images.append(Image.open(image_path))
 
-        # Resize to same height
-        target_height = min(img.height for img in pil_images)
-        pil_images = [img.resize((int(img.width * target_height / img.height), target_height))
-                     for img in pil_images]
+            target_height = min(img.height for img in opened_images)
+            pil_images = [img.resize((int(img.width * target_height / img.height), target_height))
+                         for img in opened_images]
+        finally:
+            for img in opened_images:
+                img.close()
 
         # Create comparison canvas
         total_width = sum(img.width for img in pil_images) + (len(pil_images) - 1) * 20  # 20px spacing

@@ -4,26 +4,13 @@ Mondo Style Design Generator
 Automatically generates Mondo-style prompts and creates images for posters, book covers, album art, etc.
 """
 
-import os
 import sys
 import argparse
-import requests
-import base64
-from datetime import datetime
-from pathlib import Path
 
-# API Configuration
-API_BASE = 'https://ai-gateway.trickle-lab.tech/api/v1'
-DEFAULT_MODEL = 'google/gemini-3.1-flash-image-preview'
-
-def get_api_key():
-    """Get API key from environment variable"""
-    api_key = os.getenv('AI_GATEWAY_API_KEY')
-    if not api_key:
-        print("Error: AI_GATEWAY_API_KEY environment variable is required.")
-        print("Please set it with your AI Gateway API key.")
-        sys.exit(1)
-    return api_key
+try:
+    from scripts.seedream_client import DEFAULT_MODEL, generate_image as seedream_generate_image
+except ModuleNotFoundError:
+    from seedream_client import DEFAULT_MODEL, generate_image as seedream_generate_image
 
 def generate_prompt(subject, design_type, style="auto"):
     """
@@ -82,82 +69,19 @@ def generate_prompt(subject, design_type, style="auto"):
     return prompt
 
 def generate_image(prompt, output_path=None, model=DEFAULT_MODEL, aspect_ratio="9:16"):
-    """
-    Generate image using AI Gateway API
-
-    Args:
-        prompt: The text prompt for image generation
-        output_path: Path to save the generated image
-        model: Model to use for generation
-        aspect_ratio: Aspect ratio (default: 9:16 for mobile/social media)
-
-    Returns:
-        Path to saved image or None if failed
-    """
-    api_key = get_api_key()
-
     print(f"Generating image with model: {model}")
     print(f"Aspect ratio: {aspect_ratio}")
     print(f"Prompt: {prompt[:100]}{'...' if len(prompt) > 100 else ''}")
     print("Please wait...\n")
 
     try:
-        payload = {
-            'model': model,
-            'prompt': prompt,
-            'response_format': 'b64_json',
-            'aspectRatio': aspect_ratio
-        }
-
-        response = requests.post(
-            f'{API_BASE}/images/generations',
-            headers={
-                'Content-Type': 'application/json',
-                'Authorization': f'Bearer {api_key}',
-                'Origin': 'https://trickle.so'
-            },
-            json=payload,
-            timeout=120
+        return seedream_generate_image(
+            prompt,
+            output_path=output_path,
+            model=model,
         )
-
-        response.raise_for_status()
-        result = response.json()
-
-        # Extract base64 image data
-        if 'data' in result and len(result['data']) > 0:
-            b64_data = result['data'][0].get('b64_json')
-            if b64_data:
-                # Decode and save
-                image_data = base64.b64decode(b64_data)
-
-                # Determine output path
-                if not output_path:
-                    timestamp = datetime.now().strftime('%Y-%m-%d-%H-%M-%S')
-                    output_path = f"outputs/mondo-{timestamp}.png"
-
-                # Ensure directory exists
-                os.makedirs(os.path.dirname(output_path) if os.path.dirname(output_path) else '.', exist_ok=True)
-
-                # Save image
-                with open(output_path, 'wb') as f:
-                    f.write(image_data)
-
-                print(f"✓ Image saved successfully to {output_path}")
-                return output_path
-            else:
-                print("Error: No b64_json data in response")
-                return None
-        else:
-            print("Error: Invalid response format")
-            return None
-
-    except requests.exceptions.RequestException as e:
-        print(f"Error generating image: {e}")
-        if hasattr(e.response, 'text'):
-            print(f"Response: {e.response.text}")
-        return None
     except Exception as e:
-        print(f"Unexpected error: {e}")
+        print(f"Error generating image: {e}")
         return None
 
 def main():
