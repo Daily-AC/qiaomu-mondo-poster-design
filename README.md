@@ -4,6 +4,8 @@
 
 > **一句话，生成大师级设计** - 不会PS、不懂配色、不认识艺术家？没关系，只需用一句话描述你想要什么，AI自动选择最合适的艺术风格，为你生成专业级海报、封面和设计作品。
 
+> OpenClaw / Claude Code 用户快速部署：见 [docs/openclaw-deployment.md](docs/openclaw-deployment.md)
+
 ---
 
 ## 💡 这是给谁用的？
