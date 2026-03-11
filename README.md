@@ -443,7 +443,7 @@ python3 ~/.claude/skills/qiaomu-mondo-poster-design/scripts/generate_mondo_enhan
 **A:** 可以！这叫"图生图"功能，你可以把现有的照片或海报转换成Mondo艺术风格。
 
 ### Q: 需要安装什么软件吗？
-**A:** 需要安装Python 3.7+，以及设置AI Gateway API Key。详细安装步骤看SKILL.md。
+**A:** 需要安装Python 3.7+，以及设置 `ARK_API_KEY`。当前 Seedream 5.0 图生图首版仅支持远程图片 URL。详细安装步骤看 SKILL.md。
 
 ---
 

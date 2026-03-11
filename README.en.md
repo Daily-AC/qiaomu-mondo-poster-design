@@ -4,7 +4,7 @@ English | [简体中文](README.md)
 
 > **One Sentence, Master-Level Design** - No Photoshop, no color theory, no art history? No problem. Just describe what you want in one sentence, and AI automatically selects the perfect artistic style to generate professional-grade posters, covers, and designs.
 
-**Powered by Google Gemini 3 Pro Image** 🎨
+**Powered by Seedream 5.0** 🎨
 
 ## 🚀 New in v3.0!
 
@@ -73,8 +73,8 @@ python3 ~/.claude/skills/qiaomu-mondo-poster-design/scripts/generate_mondo_enhan
 # Custom colors
 python3 ~/.claude/skills/qiaomu-mondo-poster-design/scripts/generate_mondo_enhanced.py "Jazz Night" event --style milton-glaser --colors "orange, purple, yellow"
 
-# Image-to-image
-python3 ~/.claude/skills/qiaomu-mondo-poster-design/scripts/generate_mondo_enhanced.py "noir" movie --input poster.jpg --style saul-bass
+# Image-to-image (remote URL only in v1)
+python3 ~/.claude/skills/qiaomu-mondo-poster-design/scripts/generate_mondo_enhanced.py "noir" movie --input https://example.com/poster.png --style saul-bass
 
 # List all styles
 python3 ~/.claude/skills/qiaomu-mondo-poster-design/scripts/generate_mondo_enhanced.py --list-styles
@@ -135,7 +135,8 @@ AI suggests or use your own
 - Python 3.7+
 - `requests` (required)
 - `Pillow` (optional, for comparison/image-to-image)
-- AI Gateway API Key as `AI_GATEWAY_API_KEY` env variable
+- Ark API Key as `ARK_API_KEY` env variable
+- Seedream 5.0 image-to-image currently supports remote image URLs only
 
 ```bash
 pip install -r requirements.txt

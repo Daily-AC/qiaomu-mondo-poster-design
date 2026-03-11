@@ -9,7 +9,7 @@ Generate AI image prompts AND create actual designs in Mondo's distinctive alter
 
 **This skill can:**
 - Generate detailed Mondo-style prompts for any subject
-- Create actual images directly via AI Gateway API
+- Create actual images directly via Seedream 5.0 API
 - Design movie posters, book covers, album art, event posters
 - Provide genre-specific and format-specific templates
 
@@ -259,7 +259,7 @@ python3 scripts/generate_mondo_enhanced.py "Dune" movie --compare saul-bass,olly
 Transform existing posters into Mondo style:
 
 ```bash
-python3 scripts/generate_mondo_enhanced.py "noir thriller" movie --input original_poster.jpg --style saul-bass
+python3 scripts/generate_mondo_enhanced.py "noir thriller" movie --input https://example.com/original_poster.png --style saul-bass
 ```
 
 **Use cases:**
@@ -369,7 +369,7 @@ python3 scripts/generate_mondo_enhanced.py "Akira" movie --compare kilian-eng,sa
 
 Image-to-image with specific artist:
 ```bash
-python3 scripts/generate_mondo_enhanced.py "cyberpunk noir" movie --input poster.jpg --style saul-bass
+python3 scripts/generate_mondo_enhanced.py "cyberpunk noir" movie --input https://example.com/poster.png --style saul-bass
 ```
 
 With color preferences:
@@ -442,11 +442,13 @@ If you prefer to generate prompts manually and use other image generation tools:
 
 1. Use this skill to generate the Mondo-style prompt
 2. Pass the prompt to:
-   - `/generate-image` - AI Gateway API (recommended)
+   - Seedream 5.0 API via bundled scripts (recommended)
    - `/ai-image-generation` - FLUX, Gemini, and other models
    - `/qiaomu-image-generator` - For article/content illustrations
 
 **Recommended settings:**
-- Model: `google/gemini-3.1-flash-image-preview` (best quality/speed balance)
+- Model: `doubao-seedream-5-0-260128`
+- Auth: set `ARK_API_KEY`
+- Image-to-image in v1: remote image URL only
 - Resolution: 2K or higher for print quality
 - Format: PNG with transparency support
