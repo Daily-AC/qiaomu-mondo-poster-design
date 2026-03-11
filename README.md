@@ -29,7 +29,7 @@
 ### 安装（复制粘贴就行）
 
 ```bash
-npx skills add joeseesun/qiaomu-mondo-poster-design
+npx skills add Daily-AC/qiaomu-mondo-poster-design
 ```
 
 ### 使用（对Claude说一句话）

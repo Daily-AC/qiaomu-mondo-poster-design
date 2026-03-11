@@ -19,7 +19,7 @@ English | [简体中文](README.md)
 ## Installation
 
 ```bash
-npx skills add joeseesun/qiaomu-mondo-poster-design
+npx skills add Daily-AC/qiaomu-mondo-poster-design
 ```
 
 ## 📸 Gallery: Real Examples
